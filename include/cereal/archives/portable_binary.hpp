@@ -122,7 +122,8 @@ namespace cereal
         itsStream(stream),
         itsConvertEndianness( portable_binary_detail::is_little_endian() ^ options.is_little_endian() )
       {
-        this->operator()( options.is_little_endian() );
+        // FIXME: this proc is optinal.
+        // this->operator()( options.is_little_endian() );
       }
 
       ~PortableBinaryOutputArchive() CEREAL_NOEXCEPT = default;
@@ -222,11 +223,12 @@ namespace cereal
       PortableBinaryInputArchive(std::istream & stream, Options const & options = Options::Default()) :
         InputArchive<PortableBinaryInputArchive, AllowEmptyClassElision>(this),
         itsStream(stream),
-        itsConvertEndianness( false )
+        itsConvertEndianness( options.is_little_endian() )
       {
-        uint8_t streamLittleEndian;
-        this->operator()( streamLittleEndian );
-        itsConvertEndianness = options.is_little_endian() ^ streamLittleEndian;
+        // FXIME: this proc is optinal.
+        // uint8_t streamLittleEndian;
+        // this->operator()( streamLittleEndian );
+        // itsConvertEndianness = options.is_little_endian() ^ streamLittleEndian;
       }
 
       ~PortableBinaryInputArchive() CEREAL_NOEXCEPT = default;
